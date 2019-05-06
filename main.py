@@ -10,8 +10,6 @@ def grabSite(url):
 def get_page_count(url):
 	res = grabSite(url)
 	page = bs4.BeautifulSoup(res.text, 'lxml')
-	for val in page.select(".DiscussionName"):
-		print val.getText()
 	return int(page.select(".LastPage")[0].getText())
 
 def get_yearly_threads(url):
@@ -40,13 +38,18 @@ class Search(object):
 		self.main_url = urlVal
 		self.thread = urlVal.partition(".com/")[2].partition("/")[0]
 		print("Searching for {}".format(self.thread))
-		self.pages = get_yearly_threads(self.main_url)
-		print("{} Pages found in the {} thread".format(self.pages, self.thread))
+		self.pages = get_page_count(self.main_url)
 		
+		self.all_threads = []
+		for i in range(1, self.pages+1):
+			for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
+				self.all_threads.append(v)
+		print("{} Pages found in the {} thread".format(self.pages, self.thread))
+		print("Valid Threads to search: {}".format(len(self.all_threads)))
 
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
-	thread = "https://talk.collegeconfidential.com/columbia-school-general-studies//p2"
+	thread = "https://talk.collegeconfidential.com/columbia-school-general-studies/"
 	# IE: https://talk.collegeconfidential.com/columbia-school-general-studies/
 	
 	cc = Search(thread)
