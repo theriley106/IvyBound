@@ -4,8 +4,13 @@ KEYWORDS = ["fall", "spring", "2010", "2011", "2012", "2013", "2014", "2015", "2
 URL = "https://talk.collegeconfidential.com/columbia-school-general-studies/2126809-columbia-gs-fall-2019-early-regular-decision-thread-p22.html"
 
 def grabSite(url):
-	headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-	return requests.get(url, headers=headers)
+	for i in range(3):
+		try:
+			headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+			return requests.get(url, headers=headers)
+		except:
+			pass
+	return "<html></html>"
 
 def get_page_count(url):
 	res = grabSite(url)
@@ -44,6 +49,8 @@ class Search(object):
 		for i in range(1, self.pages+1):
 			for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
 				self.all_threads.append(v)
+		for val in all_threads:
+
 		print("{} Pages found in the {} thread".format(self.pages, self.thread))
 		print("Valid Threads to search: {}".format(len(self.all_threads)))
 
