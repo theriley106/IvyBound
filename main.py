@@ -1,5 +1,12 @@
+# encoding=utf8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import requests
 import bs4
+import threading
+ALL = []
 KEYWORDS = ["fall", "spring", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"]
 URL = "https://talk.collegeconfidential.com/columbia-school-general-studies/2126809-columbia-gs-fall-2019-early-regular-decision-thread-p22.html"
 
@@ -12,10 +19,19 @@ def grabSite(url):
 			pass
 	return "<html></html>"
 
+def is_stats(string):
+	if 'gpa' in string.lower() and (string.count(":") > 2 or string.count("-") > 2):
+		return True
+	else:
+		return False
+
 def get_page_count(url):
 	res = grabSite(url)
 	page = bs4.BeautifulSoup(res.text, 'lxml')
-	return int(page.select(".LastPage")[0].getText())
+	try:
+		return int(page.select(".LastPage")[0].getText())
+	except:
+		return 2
 
 def get_yearly_threads(url):
 	threads = []
@@ -35,6 +51,36 @@ def get_yearly_threads(url):
 						break
 	return threads
 
+def gen_thread_url(url, num):
+	# https://talk.collegeconfidential.com/columbia-school-general-studies/2036962-dual-ba-program-trinity-college-dublin-and-columbia-university-fall-2018.html
+	return url.partition(".html")[0] + "-p{}.html".format(num)
+
+def extract_from_thread_url(url):
+	rCount = 0
+	aCount = 0
+	tempCount = get_page_count(url)
+	#print("SEARCHING: {} - {} pages".format(url, tempCount))
+	for i in range(1, tempCount+1):
+		res = grabSite(gen_thread_url(url, i))
+		page = bs4.BeautifulSoup(res.text, 'lxml')
+		for comment in page.select(".userContent"):
+			if is_stats(str(comment.getText())):
+				if 'accepted' in str(comment.getText()).lower():
+					print("_____ACCEPTED______")
+				elif 'rejected' in str(comment.getText()).lower() or 'rejection' in str(comment.getText()).lower():
+					print("_____REJECTED______")
+				else:
+					print("_____UNKNOWN______")
+				print str(comment.getText())
+				print("\n\n\n")
+			rCount += str(comment).lower().count("rejected")
+			aCount += str(comment).lower().count("accepted")
+	x = {"url": url, "rCount": rCount, "aCount": aCount}
+	ALL.append(x)
+	#print x
+	return x
+
+
 #.CountComments .Number
 
 class Search(object):
@@ -44,19 +90,26 @@ class Search(object):
 		self.thread = urlVal.partition(".com/")[2].partition("/")[0]
 		print("Searching for {}".format(self.thread))
 		self.pages = get_page_count(self.main_url)
-		
+		self.pages = 15
 		self.all_threads = []
 		for i in range(1, self.pages+1):
 			for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
+				#print v
+				# Example: 
 				self.all_threads.append(v)
-		for val in all_threads:
-
-		print("{} Pages found in the {} thread".format(self.pages, self.thread))
-		print("Valid Threads to search: {}".format(len(self.all_threads)))
-
+		#print("{} Pages found in the {} thread".format(self.pages, self.thread))
+		#print("Valid Threads to search: {}".format(len(self.all_threads)))
+		threads = [threading.Thread(target=extract_from_thread_url, args=(ar,)) for ar in self.all_threads]
+		for thread in threads:
+			thread.start()
+		for thread in threads:
+			thread.join()
+		for val in ALL:
+			print val
+		
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
-	thread = "https://talk.collegeconfidential.com/columbia-school-general-studies/"
+	thread = "https://talk.collegeconfidential.com/university-southern-california/"
 	# IE: https://talk.collegeconfidential.com/columbia-school-general-studies/
 	
 	cc = Search(thread)
