@@ -132,7 +132,6 @@ def extract_from_thread_url(url):
 #.CountComments .Number
 
 class Search(object):
-	"""docstring for Search"""
 	def __init__(self, urlVal):
 		self.main_url = urlVal
 		self.thread = urlVal.partition(".com/")[2].partition("/")[0]
