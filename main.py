@@ -68,7 +68,7 @@ def get_stats_from_profile(profileName):
 				comment = get_specific_comment(urlVal)
 				if comment != None:
 					if is_stats(comment):
-						print(comment)
+						return comment
 
 def get_yearly_threads(url):
 	threads = []
@@ -150,4 +150,4 @@ if __name__ == '__main__':
 	# IE: https://talk.collegeconfidential.com/columbia-school-general-studies/
 	
 	#cc = Search(thread)
-	get_stats_from_profile("radishguy")
+	get_stats_from_profile("RagingTaco1234")
