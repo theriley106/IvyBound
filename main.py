@@ -14,8 +14,9 @@ def grabSite(url):
 	for i in range(3):
 		try:
 			headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-			return requests.get(url, headers=headers)
-		except:
+			return requests.get(url, timeout=7, headers=headers)
+		except Exception as exp:
+			print exp
 			pass
 	return "<html></html>"
 
@@ -32,6 +33,42 @@ def get_page_count(url):
 		return int(page.select(".LastPage")[0].getText())
 	except:
 		return 2
+
+def get_specific_comment(url):
+	# Extracts a specific comment ID from a forum page
+	commentID = url.partition("_")[2]
+	print commentID
+	res = grabSite(url)
+	page = bs4.BeautifulSoup(res.text, 'lxml')
+	for val in page.select(".Role_RegisteredUser"):
+		if "/post/facebook/comment?id=" + commentID in str(val):
+			return val.getText()
+
+def dig_further(stringVal):
+	# This means the comment on a users page *may* contain stats
+	# Enough of a chance to pull the full comment (Another API call)
+	s = stringVal.lower()
+	return 'accepted' in s or 'rejected' in s or 'decision' in s or '!' in s
+
+def extract_url_from_item(itemVal):
+	# Extracts a comment URL from an item selection
+	return str(itemVal).partition('a href="')[2].partition('"')[0]
+
+def get_stats_from_profile(profileName):
+	# This function tries to extract stats based on a users profile ID
+	# If nothing is found it will return None
+	url = "https://talk.collegeconfidential.com/profile/comments/{}".format(profileName)
+	comments = []
+	res = grabSite(url)
+	page = bs4.BeautifulSoup(res.text, 'lxml')
+	for item in page.select(".Item"):
+		for val in item.select(".Message"):
+			if dig_further(val.getText()):
+				urlVal = extract_url_from_item(item)
+				get_specific_comment(urlVal)
+
+				if is_stats(val.getText()) == True:
+					print(val.getText())
 
 def get_yearly_threads(url):
 	threads = []
@@ -109,7 +146,8 @@ class Search(object):
 		
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
-	thread = "https://talk.collegeconfidential.com/university-southern-california/"
+	#thread = "https://talk.collegeconfidential.com/university-southern-california/"
 	# IE: https://talk.collegeconfidential.com/columbia-school-general-studies/
 	
-	cc = Search(thread)
+	#cc = Search(thread)
+	get_stats_from_profile("radishguy")
