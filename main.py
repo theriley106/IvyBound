@@ -65,10 +65,10 @@ def get_stats_from_profile(profileName):
 		for val in item.select(".Message"):
 			if dig_further(val.getText()):
 				urlVal = extract_url_from_item(item)
-				get_specific_comment(urlVal)
-
-				if is_stats(val.getText()) == True:
-					print(val.getText())
+				comment = get_specific_comment(urlVal)
+				if comment != None:
+					if is_stats(comment):
+						print(comment)
 
 def get_yearly_threads(url):
 	threads = []
