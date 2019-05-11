@@ -59,11 +59,13 @@ def get_stats_from_profile(profileName):
 	# If nothing is found it will return None
 	url = "https://talk.collegeconfidential.com/profile/comments/{}".format(profileName)
 	comments = []
+	pages = None
 	while True:
 		print url
 		res = grabSite(url)
 		page = bs4.BeautifulSoup(res.text, 'lxml')
-		pages = range(2,len(range(0, int(page.select(".Posts b")[0].getText()), 20)))
+		if pages == None:
+			pages = range(2,len(range(0, int(page.select(".Posts b")[0].getText()), 20)))
 		#raw_input(pages)
 		#raw_input("CONTINUE")
 		for item in page.select(".Item"):
@@ -160,4 +162,4 @@ if __name__ == '__main__':
 	# IE: https://talk.collegeconfidential.com/columbia-school-general-studies/
 	
 	#cc = Search(thread)
-	print get_stats_from_profile("carmen00")
+	print get_stats_from_profile("bigchoices2018")
