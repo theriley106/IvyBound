@@ -184,7 +184,7 @@ class Search(object):
 			print("Searching for {}".format(self.thread))
 			self.pages = get_page_count(self.main_url)
 			print self.pages
-			self.pages = 3
+			#self.pages = 3
 			self.all_threads = []
 			for i in range(1, self.pages+1):
 				for v in get_yearly_threads(self.main_url + "//p{}".format(i)):

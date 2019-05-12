@@ -21,22 +21,36 @@ def parse_comment_html(val):
 		justification += """{} posted their stats <a href="{}">here</a>""".format(info['username'], val['urls'][1])
 	info['justification'] = justification
 	info['foundVia'] = val['type']
+	info['url'] = val['urls'][0]
+	info['title'] = ' '.join([x.title() for x in info['url'][::-1].partition('/')[0][::-1].partition('-')[2].replace(".html", "").split("-")])
 	return info
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+	thread = "https://talk.collegeconfidential.com/" + path
+	database = main.search_all(thread)
 
-
-@app.route('/', methods=['GET'])
-def index():
-	return render_template("index.html")
+	for keyName in database.keys():
+		for i, val in enumerate(database[keyName]):
+			database[keyName][i] = parse_comment_html(val)
+	database2 = []
+	order = ["accepted", "rejected", "unknown"]
+	for k in order:
+		info = {}
+		info["decision"] = k
+		info["results"] = database[k]
+		database2.append(info)
+	return render_template('results.html', database=database2, choices=[database.keys()])
 
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
-    thread = request.form['projectFilepath']
-    database = main.search_all(thread)
+	thread = request.form['projectFilepath']
+	database = main.search_all(thread)
 
-    for keyName in database.keys():
-    	for i, val in enumerate(database[keyName]):
-    		database[keyName][i] = parse_comment_html(val)
+	for keyName in database.keys():
+		for i, val in enumerate(database[keyName]):
+			database[keyName][i] = parse_comment_html(val)
 	database2 = []
 	order = ["accepted", "rejected", "unknown"]
 	for k in order:
@@ -45,10 +59,12 @@ def handle_data():
 		info["results"] = database[k]
 		database2.append(info)
 
-    return render_template('results.html', database=database2, choices=[database.keys()])
-    return jsonify()
-    # your code
-    # return a response
+
+
+	return render_template('results.html', database=database2, choices=[database.keys()])
+	return jsonify()
+	# your code
+	# return a response
 
 @app.route('/test', methods=['GET'])
 def testPage():
