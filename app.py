@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect, Markup, jsonify, make_response, send_from_directory, session
 import main
 import bs4
+import datetime
+import time
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -12,6 +14,9 @@ def parse_comment_html(val):
 	info['totalPosts'] = page.select("b")[0].getText()
 	info['profilePic'] = str(page.select(".ProfilePhotoMedium")[0]).partition('src="')[2].partition('"')[0]
 	info['time'] = str(page.select("time")[0]).partition('title="')[02].partition('"')[0]
+	info['dtString'] = str(page.select("time")[0]).partition('datetime="')[2].partition('"')[0].partition('T')[0]
+	#info['dtString'] = 
+	#raw_input(info['dtString'])
 	info['content'] = page.select(".userContent")[0]
 	justification = ""
 	if val['type'] == "direct":
@@ -39,7 +44,7 @@ def catch_all(path):
 	for k in order:
 		info = {}
 		info["decision"] = k
-		info["results"] = database[k]
+		info["results"] = sorted(database[k], key= lambda e: datetime.datetime(*time.strptime(e['dtString'], "%Y-%m-%d")[:6]), reverse=True)
 		database2.append(info)
 	return render_template('results.html', database=database2, choices=[database.keys()])
 
@@ -56,7 +61,7 @@ def handle_data():
 	for k in order:
 		info = {}
 		info["decision"] = k
-		info["results"] = database[k]
+		info["results"] = sorted(database[k], key= lambda e: datetime.datetime(*time.strptime(e['dtString'], "%Y-%m-%d")[:6]), reverse=True)
 		database2.append(info)
 
 
