@@ -6,9 +6,12 @@ sys.setdefaultencoding('utf8')
 import requests
 import bs4
 import threading
+import json
 ALL = []
 KEYWORDS = ["fall", "spring", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"]
 URL = "https://talk.collegeconfidential.com/columbia-school-general-studies/2126809-columbia-gs-fall-2019-early-regular-decision-thread-p22.html"
+
+DB = json.load(open("all.json"))
 
 def grabSite(url):
 	for i in range(3):
@@ -108,9 +111,10 @@ def gen_thread_url(url, num):
 	# https://talk.collegeconfidential.com/columbia-school-general-studies/2036962-dual-ba-program-trinity-college-dublin-and-columbia-university-fall-2018.html
 	return url.partition(".html")[0] + "-p{}.html".format(num)
 
-def extract_from_thread_url(url):
+def extract_from_thread_url(threadName, url):
 	rCount = 0
 	aCount = 0
+
 	tempCount = get_page_count(url)
 	#print("SEARCHING: {} - {} pages".format(url, tempCount))
 	for i in range(1, tempCount+1):
@@ -122,30 +126,28 @@ def extract_from_thread_url(url):
 			#raw_input(thread)
 			if is_stats(str(comment.getText())):
 				if 'accepted' in str(comment.getText()).lower():
-					print("_____ACCEPTED______")
+					typeVal = "accepted"
 					#pass
 				elif 'rejected' in str(comment.getText()).lower() or 'rejection' in str(comment.getText()).lower():
-					print("_____REJECTED______")
+					typeVal = "rejected"
 					#pass
 				else:
-					print("_____UNKNOWN______")
+					typeVal = "unknown"
 					#pass
-				print str(comment.getText())
-				print("\n\n\n")
+				DB[threadName][typeVal].append(str(comment.getText()))
 			elif ('accepted' in str(comment.getText()).lower().split(" ")[:5] or 'rejected' in str(comment.getText()).lower().split(" ")[:5]):
 				x = get_stats_from_profile(username)
 				if x != None:
 					if 'accepted' in str(x).lower():
-						print("_____ACCEPTED______")
+						typeVal = "accepted"
 						#pass
 					elif 'rejected' in str(x).lower() or 'rejection' in str(x).lower():
-						print("_____REJECTED______")
+						typeVal = "rejected"
 						#pass
 					else:
-						print("_____UNKNOWN______")
+						typeVal = "unknown"
 						#pass
-					print x
-					print("\n\n\n")
+					DB[threadName][typeVal].append(x)
 			rCount += str(comment).lower().count("rejected")
 			aCount += str(comment).lower().count("accepted")
 	x = {"url": url, "rCount": rCount, "aCount": aCount}
@@ -164,25 +166,29 @@ class Search(object):
 	def __init__(self, urlVal):
 		self.main_url = urlVal
 		self.thread = urlVal.partition(".com/")[2].partition("/")[0]
-		print("Searching for {}".format(self.thread))
-		self.pages = get_page_count(self.main_url)
-		print self.pages
-		#self.pages = 15
-		self.all_threads = []
-		for i in range(1, self.pages+1):
-			for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
-				#print v
-				# Example:
-				self.all_threads.append(v)
-		#print("{} Pages found in the {} thread".format(self.pages, self.thread))
-		#print("Valid Threads to search: {}".format(len(self.all_threads)))
-		threads = [threading.Thread(target=extract_from_thread_url, args=(ar,)) for ar in self.all_threads]
-		for thread in threads:
-			thread.start()
-		for thread in threads:
-			thread.join()
-		for val in ALL:
-			print val
+		if self.thread not in DB:
+			DB[self.thread] = {'accepted': [], 'rejected': [], 'unknown': []}
+			print("Searching for {}".format(self.thread))
+			self.pages = get_page_count(self.main_url)
+			print self.pages
+			self.pages = 3
+			self.all_threads = []
+			for i in range(1, self.pages+1):
+				for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
+					#print v
+					# Example:
+					self.all_threads.append(v)
+			#print("{} Pages found in the {} thread".format(self.pages, self.thread))
+			#print("Valid Threads to search: {}".format(len(self.all_threads)))
+			threads = [threading.Thread(target=extract_from_thread_url, args=(self.thread, ar,)) for ar in self.all_threads]
+			for thread in threads:
+				thread.start()
+			for thread in threads:
+				thread.join()
+			for val in ALL:
+				print val
+			with open('all.json', 'w') as outfile:
+				json.dump(DB, outfile)
 
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
