@@ -24,85 +24,46 @@
 </head>
 <body>
 
-<h1 align="center">Accepted</h1>
+<div class="container bg-3">
 
-{% for info in database.accepted %}
+{% for val in database %}
+<h1 align="center">{{val.decision}}</h1>
 
-<div class="Item ItemDiscussion Role_RegisteredUser" id="Discussion_2126809">
+{% for info in val.results %}
+  <div class="row" style="
+    background-color: #f9f9f9;
+">
+<div class="col-md-4">
+        <div class="Item ItemDiscussion Role_RegisteredUser">
 <div class="Discussion">
 <div class="Item-Header DiscussionHeader">
 <div class="AuthorWrap">
 <span class="Author">
-<a class="PhotoWrap" href="/profile/brettm17" title="brettm17"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="https://us.v-cdn.net/5020364/uploads/defaultavatar/JHJ7RRM4D2PQ.jpg"></a><a class="Username" href="/profile/brettm17">{{info.username}}</a> </span>
-<span class="AuthorInfo">
+<a class="PhotoWrap" href="/profile/{{info.username}}" title="{{info.username}}"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="{{info.profilePic}}" height="64" width="64"></a><a class="Username" href="/profile/{{info.username}}">{{info.username}}</a> </span>
+<span class="AuthorInfo"><br>
 <span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
+<br>
+<span class="MItem RoleTitle">Decision: <b>{{val.decision}}</b></span> 
 </div>
 
 </div>
+</div>
+</div>
+</div>
+<div class="col-md-8">
 <div class="Item-BodyWrap">
 <div class="Item-Body">
 {{info.content|safe}}
 </div>
 </div>
 </div>
-<br>
-
-
-
-
-{% endfor %}
-
-<h1 align="center">Rejected</h1>
-
-{% for info in database.rejected %}
-<div class="Item ItemDiscussion Role_RegisteredUser" id="Discussion_2126809">
-<div class="Discussion">
-<div class="Item-Header DiscussionHeader">
-<div class="AuthorWrap">
-<span class="Author">
-<a class="PhotoWrap" href="/profile/brettm17" title="brettm17"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="https://us.v-cdn.net/5020364/uploads/defaultavatar/JHJ7RRM4D2PQ.jpg"></a><a class="Username" href="/profile/brettm17">{{info.username}}</a> </span>
-<span class="AuthorInfo">
-<span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
-</div>
-
-</div>
-<div class="Item-BodyWrap">
-<div class="Item-Body">
-{{info.content|safe}}
-</div>
-</div>
 </div>
 <br>
-
-
+  {% endfor %}
 {% endfor %}
 
 
-<h1 align="center">Unknown</h1>
 
-{% for info in database.unknown %}
-<div class="Item ItemDiscussion Role_RegisteredUser" id="Discussion_2126809">
-<div class="Discussion">
-<div class="Item-Header DiscussionHeader">
-<div class="AuthorWrap">
-<span class="Author">
-<a class="PhotoWrap" href="/profile/brettm17" title="brettm17"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="https://us.v-cdn.net/5020364/uploads/defaultavatar/JHJ7RRM4D2PQ.jpg"></a><a class="Username" href="/profile/brettm17">{{info.username}}</a> </span>
-<span class="AuthorInfo">
-<span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
-</div>
-
-</div>
-<div class="Item-BodyWrap">
-<div class="Item-Body">
-{{info.content|safe}}
-</div>
-</div>
-</div>
-<br>
-
-
-
-{% endfor %}
 
   </body>
   </html>
