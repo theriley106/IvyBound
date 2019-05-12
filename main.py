@@ -37,7 +37,7 @@ def get_page_count(url):
 def get_specific_comment(url):
 	# Extracts a specific comment ID from a forum page
 	commentID = url.partition("_")[2]
-	print commentID
+	#print commentID
 	res = grabSite(url)
 	page = bs4.BeautifulSoup(res.text, 'lxml')
 	for val in page.select(".Role_RegisteredUser"):
@@ -61,7 +61,7 @@ def get_stats_from_profile(profileName):
 	comments = []
 	pages = None
 	while True:
-		print url
+		#print url
 		res = grabSite(url)
 		page = bs4.BeautifulSoup(res.text, 'lxml')
 		if pages == None:
@@ -113,16 +113,36 @@ def extract_from_thread_url(url):
 	for i in range(1, tempCount+1):
 		res = grabSite(gen_thread_url(url, i))
 		page = bs4.BeautifulSoup(res.text, 'lxml')
-		for comment in page.select(".userContent"):
+		for thread in page.select(".Role_RegisteredUser"):
+			comment = thread.select(".userContent")[0]
+			username = str(thread).partition("/profile/")[2].partition('"')[0]
+			#raw_input(thread)
 			if is_stats(str(comment.getText())):
 				if 'accepted' in str(comment.getText()).lower():
 					print("_____ACCEPTED______")
+					#pass
 				elif 'rejected' in str(comment.getText()).lower() or 'rejection' in str(comment.getText()).lower():
 					print("_____REJECTED______")
+					#pass
 				else:
 					print("_____UNKNOWN______")
+					#pass
 				print str(comment.getText())
 				print("\n\n\n")
+			elif ('accepted' in str(comment.getText()).lower().split(" ")[:5] or 'rejected' in str(comment.getText()).lower().split(" ")[:5]):
+				x = get_stats_from_profile(username)
+				if x != None:
+					if 'accepted' in str(x).lower():
+						print("_____ACCEPTED______")
+						#pass
+					elif 'rejected' in str(x).lower() or 'rejection' in str(x).lower():
+						print("_____REJECTED______")
+						#pass
+					else:
+						print("_____UNKNOWN______")
+						#pass
+					print x
+					print("\n\n\n")
 			rCount += str(comment).lower().count("rejected")
 			aCount += str(comment).lower().count("accepted")
 	x = {"url": url, "rCount": rCount, "aCount": aCount}
@@ -143,7 +163,8 @@ class Search(object):
 		self.thread = urlVal.partition(".com/")[2].partition("/")[0]
 		print("Searching for {}".format(self.thread))
 		self.pages = get_page_count(self.main_url)
-		self.pages = 15
+		print self.pages
+		#self.pages = 15
 		self.all_threads = []
 		for i in range(1, self.pages+1):
 			for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
@@ -162,8 +183,8 @@ class Search(object):
 
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
-	#thread = "https://talk.collegeconfidential.com/university-southern-california/"
+	thread = "https://talk.collegeconfidential.com/university-southern-california/"
+	thread = "https://talk.collegeconfidential.com/columbia-school-general-studies/"
 	# IE: https://talk.collegeconfidential.com/columbia-school-general-studies/
 
-	#cc = Search(thread)
-	print get_stats_from_profile("bigchoices2018")
+	cc = Search(thread)
