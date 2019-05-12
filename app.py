@@ -28,8 +28,15 @@ def handle_data():
     for keyName in database.keys():
     	for i, val in enumerate(database[keyName]):
     		database[keyName][i] = parse_comment_html(val)
+	database2 = []
+	order = ["accepted", "rejected", "unknown"]
+	for k in order:
+		info = {}
+		info["decision"] = k
+		info["results"] = database[k]
+		database2.append(info)
 
-    return render_template('results.html', database=database)
+    return render_template('results.html', database=database2, choices=[database.keys()])
     return jsonify()
     # your code
     # return a response
