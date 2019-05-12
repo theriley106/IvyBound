@@ -23,7 +23,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <body>
 <div align="center">
-<input style="width: 60%" class="form-control" type="text" placeholder="Search" aria-label="Search">
+
+
+<form action="{{ url_for('handle_data') }}" method="post">
+<input style="width: 60%" class="form-control" type="text" name="projectFilepath" placeholder="Search" aria-label="Search">
+    <input type="submit">
+</form>
+
 </div>
   </body>
 </html>
