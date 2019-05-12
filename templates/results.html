@@ -28,7 +28,26 @@
 
 {% for info in database.accepted %}
 
-{{info|safe}}
+<div class="Item ItemDiscussion Role_RegisteredUser" id="Discussion_2126809">
+<div class="Discussion">
+<div class="Item-Header DiscussionHeader">
+<div class="AuthorWrap">
+<span class="Author">
+<a class="PhotoWrap" href="/profile/brettm17" title="brettm17"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="https://us.v-cdn.net/5020364/uploads/defaultavatar/JHJ7RRM4D2PQ.jpg"></a><a class="Username" href="/profile/brettm17">{{info.username}}</a> </span>
+<span class="AuthorInfo">
+<span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
+</div>
+
+</div>
+<div class="Item-BodyWrap">
+<div class="Item-Body">
+{{info.content|safe}}
+</div>
+</div>
+</div>
+<br>
+
+
 
 
 {% endfor %}
@@ -36,8 +55,24 @@
 <h1 align="center">Rejected</h1>
 
 {% for info in database.rejected %}
+<div class="Item ItemDiscussion Role_RegisteredUser" id="Discussion_2126809">
+<div class="Discussion">
+<div class="Item-Header DiscussionHeader">
+<div class="AuthorWrap">
+<span class="Author">
+<a class="PhotoWrap" href="/profile/brettm17" title="brettm17"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="https://us.v-cdn.net/5020364/uploads/defaultavatar/JHJ7RRM4D2PQ.jpg"></a><a class="Username" href="/profile/brettm17">{{info.username}}</a> </span>
+<span class="AuthorInfo">
+<span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
+</div>
 
-{{info|safe}}
+</div>
+<div class="Item-BodyWrap">
+<div class="Item-Body">
+{{info.content|safe}}
+</div>
+</div>
+</div>
+<br>
 
 
 {% endfor %}
@@ -46,8 +81,25 @@
 <h1 align="center">Unknown</h1>
 
 {% for info in database.unknown %}
+<div class="Item ItemDiscussion Role_RegisteredUser" id="Discussion_2126809">
+<div class="Discussion">
+<div class="Item-Header DiscussionHeader">
+<div class="AuthorWrap">
+<span class="Author">
+<a class="PhotoWrap" href="/profile/brettm17" title="brettm17"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="https://us.v-cdn.net/5020364/uploads/defaultavatar/JHJ7RRM4D2PQ.jpg"></a><a class="Username" href="/profile/brettm17">{{info.username}}</a> </span>
+<span class="AuthorInfo">
+<span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
+</div>
 
-{{info|safe}}
+</div>
+<div class="Item-BodyWrap">
+<div class="Item-Body">
+{{info.content|safe}}
+</div>
+</div>
+</div>
+<br>
+
 
 
 {% endfor %}

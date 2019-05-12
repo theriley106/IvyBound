@@ -1,7 +1,19 @@
 from flask import Flask, render_template, request, url_for, redirect, Markup, jsonify, make_response, send_from_directory, session
 import main
+import bs4
 
 app = Flask(__name__, static_url_path='/static')
+
+def parse_comment_html(htmlString):
+	info = {}
+	page = bs4.BeautifulSoup(htmlString, 'lxml')
+	info['username'] = page.select(".Username")[0].getText()
+	info['totalPosts'] = page.select("b")[0].getText()
+	info['profilePic'] = str(page.select(".ProfilePhotoMedium")[0]).partition('src="')[2].partition('"')[0]
+	info['time'] = str(page.select("time")[0]).partition('title="')[02].partition('"')[0]
+	info['content'] = page.select(".userContent")[0]
+	return info
+
 
 
 @app.route('/', methods=['GET'])
@@ -11,7 +23,14 @@ def index():
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
     thread = request.form['projectFilepath']
-    return jsonify(main.search_all(thread))
+    database = main.search_all(thread)
+
+    for keyName in database.keys():
+    	for i, val in enumerate(database[keyName]):
+    		database[keyName][i] = parse_comment_html(val)
+
+    return render_template('results.html', database=database)
+    return jsonify()
     # your code
     # return a response
 

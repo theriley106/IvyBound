@@ -45,7 +45,7 @@ def get_specific_comment(url):
 	page = bs4.BeautifulSoup(res.text, 'lxml')
 	for val in page.select(".Role_RegisteredUser"):
 		if "/post/facebook/comment?id=" + commentID in str(val):
-			return val.getText()
+			return val
 
 def dig_further(stringVal):
 	# This means the comment on a users page *may* contain stats
@@ -56,6 +56,16 @@ def dig_further(stringVal):
 def extract_url_from_item(itemVal):
 	# Extracts a comment URL from an item selection
 	return str(itemVal).partition('a href="')[2].partition('"')[0]
+
+import re
+
+def js_comment_clean(js):
+    js = re.sub("<!--[\\s\\S]*?(?:-->)?","",js)
+    js = re.sub("<!--[\\s\\S]*?-->?","",js)
+    js = re.sub('<!---+>?','',js)
+    js = re.sub("|<!(?![dD][oO][cC][tT][yY][pP][eE]|\\[CDATA\\[)[^>]*>?","",js)
+    js = re.sub("|<[?][^>]*>?","",js)
+    return js
 
 def get_stats_from_profile(profileName):
 	# This function tries to extract stats based on a users profile ID
@@ -79,7 +89,7 @@ def get_stats_from_profile(profileName):
 						urlVal = extract_url_from_item(item)
 						comment = get_specific_comment(urlVal)
 						if comment != None:
-							if is_stats(comment):
+							if is_stats(comment.getText()):
 								return comment
 			if len(pages) == 0:
 				return
@@ -122,6 +132,7 @@ def extract_from_thread_url(threadName, url):
 		page = bs4.BeautifulSoup(res.text, 'lxml')
 		for thread in page.select(".Role_RegisteredUser"):
 			comment = thread.select(".userContent")[0]
+			#raw_input(thread)
 			username = str(thread).partition("/profile/")[2].partition('"')[0]
 			#raw_input(thread)
 			if is_stats(str(comment.getText())):
@@ -134,10 +145,12 @@ def extract_from_thread_url(threadName, url):
 				else:
 					typeVal = "unknown"
 					#pass
-				DB[threadName][typeVal].append(str(comment.getText()))
+				DB[threadName][typeVal].append(str(thread))
 			elif ('accepted' in str(comment.getText()).lower().split(" ")[:5] or 'rejected' in str(comment.getText()).lower().split(" ")[:5]):
-				x = get_stats_from_profile(username)
+				fullComment = get_stats_from_profile(username)
+				x = fullComment
 				if x != None:
+					x = x.getText()
 					if 'accepted' in str(x).lower():
 						typeVal = "accepted"
 						#pass
@@ -147,7 +160,7 @@ def extract_from_thread_url(threadName, url):
 					else:
 						typeVal = "unknown"
 						#pass
-					DB[threadName][typeVal].append(x)
+					DB[threadName][typeVal].append(str(fullComment))
 			rCount += str(comment).lower().count("rejected")
 			aCount += str(comment).lower().count("accepted")
 	x = {"url": url, "rCount": rCount, "aCount": aCount}
@@ -171,7 +184,7 @@ class Search(object):
 			print("Searching for {}".format(self.thread))
 			self.pages = get_page_count(self.main_url)
 			print self.pages
-			#self.pages = 3
+			self.pages = 3
 			self.all_threads = []
 			for i in range(1, self.pages+1):
 				for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
@@ -188,7 +201,7 @@ class Search(object):
 			for val in ALL:
 				print val
 			with open('all.json', 'w') as outfile:
-				json.dump(DB, outfile)
+				json.dump(DB, outfile, indent=4)
 
 def search_all(thread):
 	Search(thread)
