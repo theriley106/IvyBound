@@ -130,6 +130,10 @@ def extract_from_thread_url(url):
 	#print x
 	return x
 
+class Decision(object):
+	def __init__(self, username):
+		self.username = username
+
 
 #.CountComments .Number
 
@@ -144,7 +148,7 @@ class Search(object):
 		for i in range(1, self.pages+1):
 			for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
 				#print v
-				# Example: 
+				# Example:
 				self.all_threads.append(v)
 		#print("{} Pages found in the {} thread".format(self.pages, self.thread))
 		#print("Valid Threads to search: {}".format(len(self.all_threads)))
@@ -155,11 +159,11 @@ class Search(object):
 			thread.join()
 		for val in ALL:
 			print val
-		
+
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
 	#thread = "https://talk.collegeconfidential.com/university-southern-california/"
 	# IE: https://talk.collegeconfidential.com/columbia-school-general-studies/
-	
+
 	#cc = Search(thread)
 	print get_stats_from_profile("bigchoices2018")
