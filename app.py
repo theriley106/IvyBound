@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect, Markup, jsonify, make_response, send_from_directory, session
+import main
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -9,8 +10,8 @@ def index():
 
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
-    projectpath = request.form['projectFilepath']
-    return projectpath
+    thread = request.form['projectFilepath']
+    return jsonify(main.search_all(thread))
     # your code
     # return a response
 
