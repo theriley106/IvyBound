@@ -90,13 +90,13 @@ def get_stats_from_profile(profileName):
 						comment = get_specific_comment(urlVal)
 						if comment != None:
 							if is_stats(comment.getText()):
-								return comment
+								return {'comment': comment, 'url': url}
 			if len(pages) == 0:
 				return
 			else:
 				#raw_input(urlVals[0])
 				url = "https://talk.collegeconfidential.com/profile/comments/{}?page=p{}".format(profileName, pages.pop(0))
-	except:
+	except Exception as exp:
 		return None
 
 def get_yearly_threads(url):
@@ -145,12 +145,12 @@ def extract_from_thread_url(threadName, url):
 				else:
 					typeVal = "unknown"
 					#pass
-				DB[threadName][typeVal].append(str(thread))
+				DB[threadName][typeVal].append({'urls': [url], 'type': "direct", "comment": str(thread)})
 			elif ('accepted' in str(comment.getText()).lower().split(" ")[:5] or 'rejected' in str(comment.getText()).lower().split(" ")[:5]):
 				fullComment = get_stats_from_profile(username)
 				x = fullComment
 				if x != None:
-					x = x.getText()
+					x = x['comment'].getText()
 					if 'accepted' in str(x).lower():
 						typeVal = "accepted"
 						#pass
@@ -160,7 +160,7 @@ def extract_from_thread_url(threadName, url):
 					else:
 						typeVal = "unknown"
 						#pass
-					DB[threadName][typeVal].append(str(fullComment))
+					DB[threadName][typeVal].append({'urls': [url, str(fullComment['url'])], 'type': "profile", "comment": str(fullComment['comment'])})
 			rCount += str(comment).lower().count("rejected")
 			aCount += str(comment).lower().count("accepted")
 	x = {"url": url, "rCount": rCount, "aCount": aCount}

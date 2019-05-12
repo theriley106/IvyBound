@@ -4,14 +4,23 @@ import bs4
 
 app = Flask(__name__, static_url_path='/static')
 
-def parse_comment_html(htmlString):
+def parse_comment_html(val):
 	info = {}
+	htmlString = val['comment']
 	page = bs4.BeautifulSoup(htmlString, 'lxml')
 	info['username'] = page.select(".Username")[0].getText()
 	info['totalPosts'] = page.select("b")[0].getText()
 	info['profilePic'] = str(page.select(".ProfilePhotoMedium")[0]).partition('src="')[2].partition('"')[0]
 	info['time'] = str(page.select("time")[0]).partition('title="')[02].partition('"')[0]
 	info['content'] = page.select(".userContent")[0]
+	justification = ""
+	if val['type'] == "direct":
+		justification += """{} posted their stats <a href="{}">here</a>""".format(info['username'], val['urls'][0])
+	else:
+		justification = """{} posted their admission decision <a href="{}">here</a><br>""".format(info['username'], val['urls'][0])
+		justification += """{} posted their stats <a href="{}">here</a>""".format(info['username'], val['urls'][1])
+	info['justification'] = justification
+	info['foundVia'] = val['type']
 	return info
 
 
