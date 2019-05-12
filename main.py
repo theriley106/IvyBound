@@ -171,7 +171,7 @@ class Search(object):
 			print("Searching for {}".format(self.thread))
 			self.pages = get_page_count(self.main_url)
 			print self.pages
-			self.pages = 3
+			#self.pages = 3
 			self.all_threads = []
 			for i in range(1, self.pages+1):
 				for v in get_yearly_threads(self.main_url + "//p{}".format(i)):
@@ -189,6 +189,10 @@ class Search(object):
 				print val
 			with open('all.json', 'w') as outfile:
 				json.dump(DB, outfile)
+
+def search_all(thread):
+	Search(thread)
+	return json.load(open("all.json"))[thread.partition(".com/")[2].partition("/")[0]]
 
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
