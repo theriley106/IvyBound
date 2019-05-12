@@ -57,31 +57,34 @@ def extract_url_from_item(itemVal):
 def get_stats_from_profile(profileName):
 	# This function tries to extract stats based on a users profile ID
 	# If nothing is found it will return None
-	url = "https://talk.collegeconfidential.com/profile/comments/{}".format(profileName)
-	comments = []
-	pages = None
-	while True:
-		#print url
-		res = grabSite(url)
-		page = bs4.BeautifulSoup(res.text, 'lxml')
-		if pages == None:
-			pages = range(2,len(range(0, int(page.select(".Posts b")[0].getText()), 20)))
-		#raw_input(pages)
-		#raw_input("CONTINUE")
-		for item in page.select(".Item"):
-			for val in item.select(".Message"):
-				if dig_further(val.getText()):
-					#print val.getText()
-					urlVal = extract_url_from_item(item)
-					comment = get_specific_comment(urlVal)
-					if comment != None:
-						if is_stats(comment):
-							return comment
-		if len(pages) == 0:
-			return
-		else:
-			#raw_input(urlVals[0])
-			url = "https://talk.collegeconfidential.com/profile/comments/{}?page=p{}".format(profileName, pages.pop(0))
+	try:
+		url = "https://talk.collegeconfidential.com/profile/comments/{}".format(profileName)
+		comments = []
+		pages = None
+		while True:
+			#print url
+			res = grabSite(url)
+			page = bs4.BeautifulSoup(res.text, 'lxml')
+			if pages == None:
+				pages = range(2,len(range(0, int(page.select(".Posts b")[0].getText()), 20)))
+			#raw_input(pages)
+			#raw_input("CONTINUE")
+			for item in page.select(".Item"):
+				for val in item.select(".Message"):
+					if dig_further(val.getText()):
+						#print val.getText()
+						urlVal = extract_url_from_item(item)
+						comment = get_specific_comment(urlVal)
+						if comment != None:
+							if is_stats(comment):
+								return comment
+			if len(pages) == 0:
+				return
+			else:
+				#raw_input(urlVals[0])
+				url = "https://talk.collegeconfidential.com/profile/comments/{}?page=p{}".format(profileName, pages.pop(0))
+	except:
+		return None
 
 def get_yearly_threads(url):
 	threads = []
