@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Python Project Page</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container bg-3">
+
+{% for val in database %}
+<h1 align="center">{{val.decision|title}}</h1>
+
+{% for info in val.results %}
+  <div class="row" style="
+    background-color: #f9f9f9;
+">
+<div class="col-md-4">
+        <div class="Item ItemDiscussion Role_RegisteredUser">
+<div class="Discussion">
+<div class="Item-Header DiscussionHeader">
+<div class="AuthorWrap">
+<span class="Author">
+<a class="PhotoWrap" href="/profile/{{info.username}}" title="{{info.username}}"><img alt="brettm17" class="ProfilePhoto ProfilePhotoMedium" src="{{info.profilePic}}" style="
+    padding-right: 10px;
+" height="64" width="64"></a><a class="Username" href="/profile/{{info.username}}">{{info.username}}</a> </span>
+<span class="AuthorInfo"><br>
+<span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
+<br>
+<span class="MItem RoleTitle">Decision: <b>{{val.decision|title}}</b></span> 
+<br>
+<span class="MItem RoleTitle">Found Via: <b>{{info.foundVia|title}}</b></span> 
+<br>
+<h5>Result Generation Process:</h5>
+<span class="MItem RoleTitle">{{info.justification|safe}}</span>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="Item-BodyWrap">
+<div class="Item-Body">
+<h5><a href="{{info.url}}">{{info.title}}</a></h5>
+{{info.content|safe}}
+</div>
+</div>
+</div>
+</div>
+<br>
+  {% endfor %}
+{% endfor %}
+
+
+
+
+  </body>
+  </html>
