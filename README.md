@@ -8,4 +8,6 @@
 
 ### What does this do?
 
-College Confidential is argueably the largest forum dedicated to the college admission process, and in many of the threads dedicated to specific university applications students will their application stats along with their application results.  This allows future applicants to properly guage their chance of getting into a specific university, and this information can be far more valuable than the numbers listed in a College's CDS.
+College Confidential is argueably the largest forum dedicated to the college admission process, and in many of the threads dedicated to specific university applications students will their application stats along with their application results.  This allows future applicants to properly guage their chance of getting into a specific university, and this information can be far more valuable than the numbers listed in a College's CDS.  Unfortunately, these stats posts can be relatively hard to find as some University threads have 1000's of comments with multiple years worth of information.
+
+This program agregates College Confidential comments containing application stats, and organizes them based on the University name.
