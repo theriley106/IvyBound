@@ -15,7 +15,7 @@ def parse_comment_html(val):
 	info['profilePic'] = str(page.select(".ProfilePhotoMedium")[0]).partition('src="')[2].partition('"')[0]
 	info['time'] = str(page.select("time")[0]).partition('title="')[02].partition('"')[0]
 	info['dtString'] = str(page.select("time")[0]).partition('datetime="')[2].partition('"')[0].partition('T')[0]
-	#info['dtString'] = 
+	#info['dtString'] =
 	#raw_input(info['dtString'])
 	info['content'] = page.select(".userContent")[0]
 	justification = ""
@@ -29,6 +29,10 @@ def parse_comment_html(val):
 	info['url'] = val['urls'][0]
 	info['title'] = ' '.join([x.title() for x in info['url'][::-1].partition('/')[0][::-1].partition('-')[2].replace(".html", "").split("-")])
 	return info
+
+def extract_school_name_from_URL(urlString):
+	schoolName = urlString.partition('.com/')[2].partition('/')[0]
+	return schoolName
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
