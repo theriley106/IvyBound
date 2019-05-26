@@ -31,13 +31,16 @@ def parse_comment_html(val):
 	return info
 
 def extract_school_name_from_URL(urlString):
-	schoolName = urlString.partition('.com/')[2].partition('/')[0]
+	schoolName = urlString.partition('/')[0]
 	return schoolName
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-	thread = "https://talk.collegeconfidential.com/" + path
+	collegeThread = extract_school_name_from_URL(path)
+	if len(collegeThread) < 5:
+		return collegeThread + " is an invalid school name"
+	thread = "https://talk.collegeconfidential.com/" + collegeThread
 	database = main.search_all(thread)
 
 	for keyName in database.keys():
