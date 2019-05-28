@@ -13,3 +13,7 @@ College Confidential is argueably the largest forum dedicated to the college adm
 This program agregates College Confidential comments containing application stats, and organizes them based on the University name.
 
 
+### How do I use this?
+
+```bash
+
