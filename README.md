@@ -16,4 +16,3 @@ This program agregates College Confidential comments containing application stat
 ### How do I use this?
 
 ```bash
-
