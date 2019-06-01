@@ -17,9 +17,6 @@ College Confidential is a forum dedicated to the college application process.
 
 ### How do I use this?
 
-```bash
-`
-
 ### Supported Schools
 
 - University of South California
