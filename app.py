@@ -74,7 +74,6 @@ def handle_data():
 
 
 	return render_template('results.html', database=database2, choices=[database.keys()])
-	return jsonify()
 	# your code
 	# return a response
 
