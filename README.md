@@ -23,3 +23,9 @@ College Confidential is a forum dedicated to the college application process.
 ### Supported Schools
 
 - University of South California
+
+### Example
+
+<p align="center">
+  <img src="static/example.png"/>
+</p>
