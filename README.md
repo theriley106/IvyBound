@@ -26,3 +26,5 @@ College Confidential is a forum dedicated to the college application process.
 <p align="center">
   <img src="static/example.png"/>
 </p>
+
+
