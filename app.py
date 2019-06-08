@@ -37,11 +37,14 @@ def extract_school_name_from_URL(urlString):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
+	typeVal = request.args.get('type', None)
+	# This is the type of application # IE: Transfer, all, freshman
+	# Defaults to all
 	collegeThread = extract_school_name_from_URL(path)
 	if len(collegeThread) < 5:
 		return collegeThread + " is an invalid school name"
 	thread = "https://talk.collegeconfidential.com/" + collegeThread
-	database = main.search_all(thread)
+	database = main.search_all(thread, typeVal)
 
 	for keyName in database.keys():
 		for i, val in enumerate(database[keyName]):
