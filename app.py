@@ -51,12 +51,14 @@ def catch_all(path):
 			database[keyName][i] = parse_comment_html(val)
 	database2 = []
 	order = ["accepted", "rejected", "unknown"]
+	totalCount = 0
 	for k in order:
 		info = {}
 		info["decision"] = k
 		info["results"] = sorted(database[k], key= lambda e: datetime.datetime(*time.strptime(e['dtString'], "%Y-%m-%d")[:6]), reverse=True)
+		totalCount += len(info['results'])
 		database2.append(info)
-	return render_template('results.html', database=database2, choices=[database.keys()])
+	return render_template('results.html', database=database2, choices=[database.keys()], resultCount=totalCount)
 
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
