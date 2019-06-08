@@ -203,9 +203,19 @@ class Search(object):
 			with open('all.json', 'w') as outfile:
 				json.dump(DB, outfile, indent=4)
 
-def search_all(thread):
+def search_all(thread, filterVal="transfer"):
 	Search(thread)
-	return json.load(open("all.json"))[thread.partition(".com/")[2].partition("/")[0]]
+	x = json.load(open("all.json"))[thread.partition(".com/")[2].partition("/")[0]]
+
+	if filterVal != None:
+		for v in x.keys():
+			toRemove = []
+			for val in x[v]:
+				if filterVal.lower() not in str(x[v]).lower():
+					toRemove.append(val)
+			for val in toRemove:
+				x[v].remove(val)
+	return x
 
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")
