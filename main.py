@@ -203,7 +203,7 @@ class Search(object):
 			with open('all.json', 'w') as outfile:
 				json.dump(DB, outfile, indent=4)
 
-def search_all(thread, filterVal="transfer"):
+def search_all(thread, filterVal=None):
 	Search(thread)
 	x = json.load(open("all.json"))[thread.partition(".com/")[2].partition("/")[0]]
 
