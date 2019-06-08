@@ -211,7 +211,7 @@ def search_all(thread, filterVal="transfer"):
 		for v in x.keys():
 			toRemove = []
 			for val in x[v]:
-				if filterVal.lower() not in str(x[v]).lower():
+				if filterVal.lower() not in str(val).lower():
 					toRemove.append(val)
 			for val in toRemove:
 				x[v].remove(val)
