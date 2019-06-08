@@ -23,6 +23,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<h3>Results: {{resultCount}}</h3>
 
 <div class="container bg-3">
 
@@ -45,9 +46,9 @@
 <span class="AuthorInfo"><br>
 <span class="MItem RoleTitle"></span> <span class="MItem PostCount">Posted: <b>{{info.time}}</b></span> </span>
 <br>
-<span class="MItem RoleTitle">Decision: <b>{{val.decision|title}}</b></span> 
+<span class="MItem RoleTitle">Decision: <b>{{val.decision|title}}</b></span>
 <br>
-<span class="MItem RoleTitle">Found Via: <b>{{info.foundVia|title}}</b></span> 
+<span class="MItem RoleTitle">Found Via: <b>{{info.foundVia|title}}</b></span>
 <br>
 <h5>Result Generation Process:</h5>
 <span class="MItem RoleTitle">{{info.justification|safe}}</span>
