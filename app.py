@@ -37,8 +37,13 @@ def extract_school_name_from_URL(urlString):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
+	#raw_input(request.headers.get("Referer"))
+	#raw_input(path.partition('/')[0])
 	if request.headers.get("Referer") != None:
-		return redirect('http://talk.collegeconfidential.com/' + path)
+		print request.headers.get("Referer")[::-1].partition('/')[0][::-1].split("?")[0]
+		print path.split("?")[0]
+		if request.headers.get("Referer")[::-1].partition('/')[0][::-1].split("?")[0] != path.split("?")[0]:
+			return redirect('http://talk.collegeconfidential.com/' + path)
 	#raw_input(request.headers.get("Referer"))
 	typeVal = request.args.get('type', None)
 	if typeVal != None:
