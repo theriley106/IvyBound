@@ -12,9 +12,12 @@ KEYWORDS = ["fall", "spring", "2010", "2011", "2012", "2013", "2014", "2015", "2
 URL = "https://talk.collegeconfidential.com/columbia-school-general-studies/2126809-columbia-gs-fall-2019-early-regular-decision-thread-p22.html"
 
 DB = json.load(open("all.json"))
-
+THREADS = []
+SEARCH_COUNT = {}
 def grabSite(url):
 	for i in range(3):
+		SEARCH_COUNT[THREADS[-1]] += 1
+		print(url)
 		try:
 			headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 			return requests.get(url, timeout=7, headers=headers)
@@ -204,6 +207,9 @@ class Search(object):
 				json.dump(DB, outfile, indent=4)
 
 def search_all(thread, filterVal=None):
+	THREADS.append(thread)
+	if THREADS[-1] not in SEARCH_COUNT:
+		SEARCH_COUNT[THREADS[-1]] = 0
 	Search(thread)
 	x = json.load(open("all.json"))[thread.partition(".com/")[2].partition("/")[0]]
 	if filterVal != None:
@@ -223,7 +229,7 @@ def search_all(thread, filterVal=None):
 						toRemove.append(val)
 				for val in toRemove:
 					x[v].remove(val)
-	return x
+	return x, SEARCH_COUNT[thread]
 
 if __name__ == '__main__':
 	#thread = raw_input("College Confidential Thread URL: ")

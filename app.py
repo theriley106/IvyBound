@@ -55,8 +55,8 @@ def catch_all(path):
 	if len(collegeThread) < 5:
 		return collegeThread + " is an invalid school name"
 	thread = "https://talk.collegeconfidential.com/" + collegeThread
-	database = main.search_all(thread, typeVal)
-
+	database, countVal = main.search_all(thread, typeVal)
+	print("COUNTVAL : {}".format(countVal))
 	for keyName in database.keys():
 		for i, val in enumerate(database[keyName]):
 			database[keyName][i] = parse_comment_html(val)
@@ -79,7 +79,7 @@ def catch_all(path):
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
 	thread = request.form['projectFilepath']
-	database = main.search_all(thread)
+	database, countVal = main.search_all(thread)
 
 	for keyName in database.keys():
 		for i, val in enumerate(database[keyName]):
