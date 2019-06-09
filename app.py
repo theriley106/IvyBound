@@ -37,6 +37,9 @@ def extract_school_name_from_URL(urlString):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
+	if request.headers.get("Referer") != None:
+		return redirect('http://talk.collegeconfidential.com/' + path)
+	#raw_input(request.headers.get("Referer"))
 	typeVal = request.args.get('type', None)
 	# This is the type of application # IE: Transfer, all, freshman
 	# Defaults to all
