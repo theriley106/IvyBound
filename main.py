@@ -206,15 +206,23 @@ class Search(object):
 def search_all(thread, filterVal=None):
 	Search(thread)
 	x = json.load(open("all.json"))[thread.partition(".com/")[2].partition("/")[0]]
-
 	if filterVal != None:
-		for v in x.keys():
-			toRemove = []
-			for val in x[v]:
-				if filterVal.lower() not in str(val).lower():
-					toRemove.append(val)
-			for val in toRemove:
-				x[v].remove(val)
+		if filterVal.lower() == 'freshman':
+			for v in x.keys():
+				toRemove = []
+				for val in x[v]:
+					if 'transfer' in str(val).lower():
+						toRemove.append(val)
+				for val in toRemove:
+					x[v].remove(val)
+		else:
+			for v in x.keys():
+				toRemove = []
+				for val in x[v]:
+					if filterVal.lower() not in str(val).lower():
+						toRemove.append(val)
+				for val in toRemove:
+					x[v].remove(val)
 	return x
 
 if __name__ == '__main__':
