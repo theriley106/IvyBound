@@ -90,13 +90,15 @@ Even with multiple threads pulling admission stats simultaneously, this still ta
 </p>
 
 
-<p align="center">
-  <img src="static/3.png"/>
-</p>
-
 
 <p align="center">
   <img src="static/4.png"/>
+</p>
+
+
+
+<p align="center">
+  <img src="static/3.png"/>
 </p>
 
 
