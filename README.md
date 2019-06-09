@@ -20,9 +20,11 @@ This program agregates College Confidential comments containing application stat
 
 ```bash
 https://talk.collegeconfidential.com/massachusetts-institute-technology/
+```
 
 to
 
+```bash
 localhost:8000/massachusetts-institute-technology/
 ```
 
