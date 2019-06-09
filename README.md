@@ -10,7 +10,7 @@ College Confidential is arguably the largest forum dedicated to the college admi
 
 On many of the CC threads dedicated to specific university applications, students will post their application stats along with their application results.  This allows future applicants to properly gauge their chance of getting into a specific university, and this information can be far more valuable than the numbers listed in a College's Common Data Set.
 
-Unfortunately, these stats posts can be relatively hard to find as some University threads have 1000's of comments with multiple years worth of information.  Additionally, students will commonly post admission results without their stats, which requires future applicants to try to find where they may have been posted elsewhere (a chance me thread, another university forum, etc.).
+Unfortunately, these stats posts can be relatively hard to find as some university threads have 1000's of comments with multiple years worth of information.  Additionally, students will commonly post admission results without their stats, which requires future applicants to try to find where they may have been posted elsewhere (a chance me thread, another university forum, etc.).
 
 This program aggregates College Confidential comments containing application stats and crawls College Confidential to find stats from users that post admission results.  This program organizes them based on the University name.
 
@@ -69,7 +69,7 @@ In the following result, you can see the process used to get this admission resu
   <img src="static/5.png"/>
 </p>
 
-In other words, GoldenState1 posted that they had received an acceptance in the Columbia University admissions thread, but they posted their stats in a seperate admissions thread for a different school.
+In other words, GoldenState1 posted that they received an acceptance in the Columbia University admissions thread, but they posted their stats in a seperate admissions thread for a different school.
 
 ### Why is it taking so long to pull admission statistics?
 
