@@ -10,9 +10,9 @@ College Confidential is argueably the largest forum dedicated to the college adm
 
 On many of the CC threads dedicated to specific university applications, students will post their application stats along with their application results.  This allows future applicants to properly guage their chance of getting into a specific university, and this information can be far more valuable than the numbers listed in a College's Common Data Set.
 
-Unfortunately, these stats posts can be relatively hard to find as some University threads have 1000's of comments with multiple years worth of information.
+Unfortunately, these stats posts can be relatively hard to find as some University threads have 1000's of comments with multiple years worth of information.  Additionally, students will commonly post admission results without their stats, but they may have posted their stats elsewhere (a chance me thread, another university forum, etc.).
 
-This program agregates College Confidential comments containing application stats, and organizes them based on the University name.
+This program agregates College Confidential comments containing application stats, and crawls College Confidential to find stats from users that post admission results.  This program organizes them based on the University name.
 
 ### How do I use this?
 
@@ -58,6 +58,15 @@ Additionally, you can specify filters based on school type as well:
 ```bash
 localhost:8000/university-california-berkeley?type=haas
 ```
+
+### Why is it taking so long to pull admission statistics?
+
+Many applicants will post their admission result without including stats, so this program crawls through each poster's college confidential account to find stats that they've posted in other threads.
+
+It turns out that doing this is *extremely* computationally intensive.  For instance, pulling every Yale University admission statistic requires searching through 5,092
+ threads across 122 College Confidential forums.
+
+Even with multiple threads pulling admission stats simultaniously, this still takes a *really* long time - especially if you have a slow internet connection.
 
 ### Example
 
