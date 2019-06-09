@@ -28,9 +28,31 @@ to
 localhost:8000/massachusetts-institute-technology/
 ```
 
-### Supported Schools
+### How can I specify admission type?  (Freshman, Transfer, etc.)
 
-- University of South California
+Adding a "type" parameter to the URL allows you to specify admission type.  For instance:
+
+```bash
+localhost:8000/carnegie-mellon-university?type=transfer
+```
+
+Will only display Carnegie Mellon's transfer admission results.
+
+Whereas:
+
+```bash
+localhost:8000/carnegie-mellon-university?type=freshman
+```
+
+Will only show freshman admission results.
+
+Additionally, you can specify filters based on school type as well:
+
+```bash
+localhost:8000/university-california-berkeley?type=haas
+```
+
+Will only show admission results from UC Berkeley's HAAS business school
 
 ### Example
 
