@@ -40,8 +40,8 @@ def catch_all(path):
 	#raw_input(request.headers.get("Referer"))
 	#raw_input(path.partition('/')[0])
 	if request.headers.get("Referer") != None:
-		print request.headers.get("Referer")[::-1].partition('/')[0][::-1].split("?")[0]
-		print path.split("?")[0]
+		#print request.headers.get("Referer")[::-1].partition('/')[0][::-1].split("?")[0]
+		#print path.split("?")[0]
 		if request.headers.get("Referer")[::-1].partition('/')[0][::-1].split("?")[0] != path.split("?")[0]:
 			return redirect('http://talk.collegeconfidential.com/' + path)
 	#raw_input(request.headers.get("Referer"))
@@ -69,7 +69,12 @@ def catch_all(path):
 		info["results"] = sorted(database[k], key= lambda e: datetime.datetime(*time.strptime(e['dtString'], "%Y-%m-%d")[:6]), reverse=True)
 		totalCount += len(info['results'])
 		database2.append(info)
-	return render_template('results.html', database=database2, choices=[database.keys()], resultCount=totalCount)
+	if typeVal == None:
+		typeVal = ""
+	else:
+		typeVal += " "
+	schoolName = path.split("?")[0].replace("-", " ").title()
+	return render_template('results.html', schoolName=schoolName, typeVal=typeVal.title(), database=database2, choices=[database.keys()], resultCount=totalCount)
 
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
