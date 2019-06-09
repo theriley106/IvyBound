@@ -16,6 +16,18 @@ This program agregates College Confidential comments containing application stat
 
 ### How do I use this?
 
+Install all requirements with the following command:
+
+```bash
+$ pip install -r requirements.txt
+```
+
+Start the Flask server with the following command:
+
+```bash
+$ python app.py
+```
+
 Go to any college confidential forum, and replace the URL like so:
 
 ```bash
