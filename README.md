@@ -16,6 +16,16 @@ This program agregates College Confidential comments containing application stat
 
 ### How do I use this?
 
+- Go to literally any college confidential forum, and replace the URL like so:
+
+```bash
+https://talk.collegeconfidential.com/massachusetts-institute-technology/
+
+to
+
+localhost:8000/massachusetts-institute-technology/
+```
+
 ### Supported Schools
 
 - University of South California
