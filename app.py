@@ -41,6 +41,8 @@ def catch_all(path):
 		return redirect('http://talk.collegeconfidential.com/' + path)
 	#raw_input(request.headers.get("Referer"))
 	typeVal = request.args.get('type', None)
+	if typeVal.lower() == 'all':
+		typeVal = None
 	# This is the type of application # IE: Transfer, all, freshman
 	# Defaults to all
 	collegeThread = extract_school_name_from_URL(path)
