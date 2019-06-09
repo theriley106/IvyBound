@@ -59,6 +59,18 @@ Additionally, you can specify filters based on school type as well:
 localhost:8000/university-california-berkeley?type=haas
 ```
 
+### Result Generation Process
+
+The program records the process of getting admission stats so that the user can confirm the accuracy.
+
+In the following result, you can see the process used to get this admission result:
+
+<p align="center">
+  <img src="static/5.png"/>
+</p>
+
+In other words, GoldenState1 posted that they had received an acceptance in the Columbia University admissions thread, but they posted their stats in a seperate admissions thread for a different school.
+
 ### Why is it taking so long to pull admission statistics?
 
 Many applicants will post their admission result without including stats, so this program crawls through each poster's college confidential account to find stats that they've posted in other threads.
@@ -67,10 +79,24 @@ It turns out that doing this is *extremely* computationally intensive.  For inst
 
 Even with multiple threads pulling admission stats simultaneously, this still takes a *really* long time - especially if you have a slow internet connection.
 
-### Example
+### Example Results
 
 <p align="center">
-  <img src="static/example.png"/>
+  <img src="static/1.png"/>
+</p>
+
+<p align="center">
+  <img src="static/2.png"/>
+</p>
+
+
+<p align="center">
+  <img src="static/3.png"/>
+</p>
+
+
+<p align="center">
+  <img src="static/4.png"/>
 </p>
 
 
