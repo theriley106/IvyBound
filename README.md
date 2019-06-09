@@ -4,7 +4,7 @@
 </p>
 
 
-### What does this do?
+## What does this do?
 
 College Confidential is arguably the largest forum dedicated to the college admission process.
 
@@ -14,7 +14,7 @@ Unfortunately, these stats posts can be relatively hard to find as some universi
 
 This program aggregates College Confidential comments containing application stats and crawls College Confidential to find stats from users that post admission results.  This program organizes them based on the University name.
 
-### How do I use this?
+## How do I use this?
 
 Install all requirements with the following command:
 
@@ -40,7 +40,7 @@ to
 localhost:8000/massachusetts-institute-technology/
 ```
 
-### How can I specify admission type?  (Freshman, Transfer, etc.)
+## How can I specify admission type?  (Freshman, Transfer, etc.)
 
 Adding a "type" parameter to the URL allows you to specify admission type.  For instance:
 
@@ -59,7 +59,7 @@ Additionally, you can specify filters based on school type as well:
 localhost:8000/university-california-berkeley?type=haas
 ```
 
-### Result Generation Process
+## Result Generation Process
 
 The program records the process of getting admission stats so that the user can confirm the accuracy.
 
@@ -71,7 +71,7 @@ In the following result, you can see the process used to get this admission resu
 
 In other words, GoldenState1 posted that they received an acceptance in the Columbia University admissions thread, but they posted their stats in a seperate admissions thread for a different school.
 
-### Why is it taking so long to pull admission statistics?
+## Why is it taking so long to pull admission statistics?
 
 Many applicants will post their admission result without including stats, so this program crawls through each poster's college confidential account to find stats that they've posted in other threads.
 
@@ -79,7 +79,7 @@ It turns out that doing this is *extremely* computationally intensive.  For inst
 
 Even with multiple threads pulling admission stats simultaneously, this still takes a *really* long time - especially if you have a slow internet connection.
 
-### Example Results
+## Example Results
 
 <p align="center">
   <img src="static/1.png"/>
